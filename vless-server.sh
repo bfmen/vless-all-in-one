@@ -6665,12 +6665,10 @@ _download_script_to() {
 # 获取最新标签版本号（无缓存）
 _get_latest_tag_version() {
     local repo="$1"
-    local project result version
-
-    project=$(echo "$repo" | sed 's/\//%2F/g')
+    local result version
 
     result=$(curl -sL --connect-timeout 5 --max-time 10 \
-    "https://gitlab.com/api/v4/projects/${project}/repository/tags?per_page=1" 2>/dev/null)
+    "https://api.github.com/repos/${repo}/tags?per_page=1" 2>/dev/null)
 
     [[ -z "$result" ]] && return 1
 
@@ -6678,6 +6676,13 @@ _get_latest_tag_version() {
 
     [[ -z "$version" ]] && return 1
 
+    echo "$version"
+}
+
+_get_latest_script_version_from_raw() {
+    local version
+    version=$(curl -sL --connect-timeout 5 --max-time 10 "$SCRIPT_RAW_URL" 2>/dev/null | sed -n 's/^readonly VERSION="\([^"]*\)"/\1/p' | head -n1)
+    [[ -z "$version" ]] && return 1
     echo "$version"
 }
 
@@ -6705,6 +6710,9 @@ _get_latest_script_version() {
     version=$(_get_latest_version "$SCRIPT_REPO" "false" "true" 2>/dev/null)
     if [[ -z "$version" ]]; then
         version=$(_get_latest_tag_version "$SCRIPT_REPO")
+    fi
+    if [[ -z "$version" ]]; then
+        version=$(_get_latest_script_version_from_raw)
     fi
     [[ -z "$version" ]] && return 1
 
