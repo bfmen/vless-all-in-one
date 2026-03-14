@@ -26,3 +26,7 @@ wget -O vless-server.sh https://raw.githubusercontent.com/Zyx0rx/vless-all-in-on
 ## Documents
 
 - [Website Docs](https://docs.vaiox.de/)
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Zyx0rx/vless-all-in-one&type=Date)](https://www.star-history.com/#Zyx0rx/vless-all-in-one&Date)
