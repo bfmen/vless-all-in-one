@@ -18328,6 +18328,9 @@ do_install_server() {
                 echo -e "  模式: ${G}pure / native / 0rtt${NC}"
                 echo -e "  ${D}注: 请优先使用分享链接导入客户端${NC}"
                 _line
+                echo ""
+                read -rp "  确认安装? [Y/n]: " confirm
+                [[ "$confirm" =~ ^[nN]$ ]] && return
 
                 _info "生成配置..."
                 gen_vless_encryption_server_config "$uuid" "$port" "$decryption_config" "$encryption_config"
@@ -18362,6 +18365,9 @@ do_install_server() {
                     echo -e "  ${D}(订阅通过 Reality 端口访问)${NC}"
                 fi
                 _line
+                echo ""
+                read -rp "  确认安装? [Y/n]: " confirm
+                [[ "$confirm" =~ ^[nN]$ ]] && return
                 
                 _info "生成配置..."
                 gen_server_config "$uuid" "$port" "$privkey" "$pubkey" "$sid" "$final_sni"
